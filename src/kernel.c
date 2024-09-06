@@ -3,7 +3,8 @@
 
 void kmain(void);
 
-void kmain(void){
+void kmain(void)
+{
     initGdt();
     print("GDT has worked!\r\n");
-}
+};
