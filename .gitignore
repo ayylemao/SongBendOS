@@ -1,0 +1,4 @@
+build/
+SB/boot/kernel
+*.iso
+
