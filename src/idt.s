@@ -3,6 +3,7 @@ extern exception_handler
 ; ISR stubs for exceptions without error codes
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
+    push dword 0
     push dword %1          ; Push the interrupt vector number onto the stack
     call exception_handler ; Call the C exception handler
     add esp, 4             ; Clean up the stack (pop the pushed vector number)
