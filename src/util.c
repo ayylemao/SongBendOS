@@ -9,3 +9,4 @@ void *memset(void *dest, char val, uint32_t count)
     }
     return dest;
 }
+
