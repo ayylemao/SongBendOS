@@ -10,6 +10,9 @@ void kmain(void)
     print("GDT has worked!\r\n");
     init_Idt();
     print("IDT has worked!\r\n");
-    uint32_t* ptr = (uint32_t*)0x0;  // Null pointer dereference
+
+    __asm__ volatile ("cli");
+    //uint32_t* ptr = (uint32_t*)0x0;  // Null pointer dereference
     //uint32_t value = *ptr;
+    __asm__ volatile ("sti");
 };
