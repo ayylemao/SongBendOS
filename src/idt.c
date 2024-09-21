@@ -11,12 +11,6 @@ void exception_handler(uint32_t interrupt_vector, uint32_t error_code) {
     itoa(interrupt_vector, buffer, 10);
     print("Exception: ");
     print(buffer);
-
-    if (error_code != 0x0) {  // If error_code is not invalid (e.g., for no-error-code exceptions)
-        print(" Error code: ");
-        itoa(error_code, buffer, 10);  // Convert error code to string
-        print(buffer);
-    } 
     print("\r\n");
 
     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
