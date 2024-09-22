@@ -9,9 +9,10 @@ void kmain(void)
 {
     __asm__ volatile ("cli");
     initGdt();
-    print("GDT has worked!\r\n");
+    printf("GDT has worked!\r\n");
     init_Idt();
-    print("IDT has worked!\r\n");
+    set_text_color(COLOR8_LIGHT_BLUE);
+    printf("IDT has worked!\r\n");
 
     outb(0x21, 0xFF);
     outb(0xA1, 0xFF);
