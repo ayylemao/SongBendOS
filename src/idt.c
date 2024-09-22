@@ -7,11 +7,12 @@ static idt_entry_t idt[256];
 
 __attribute__((noreturn))
 void exception_handler(uint32_t interrupt_vector, uint32_t error_code) {
-    char buffer[50];
-    itoa(interrupt_vector, buffer, 10);
-    print("Exception: ");
-    print(buffer);
-    print("\r\n");
+    printf("\nException\n");
+    printf("Vector: %d\n", interrupt_vector);
+    if (error_code != 0)
+    {
+        printf("Error code: %d\n", error_code);
+    }
 
     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
     while(1);
