@@ -5,6 +5,10 @@
 
 void log_stdout(uint8_t level, char *message_fmt, bool format_flag, uint32_t to_format)
 {
+    if (level < LOG_LEVEL)
+    {
+        return;
+    }
     const char* log_prefix = NULL;
 
     switch (level)
@@ -30,7 +34,7 @@ void log_stdout(uint8_t level, char *message_fmt, bool format_flag, uint32_t to_
         set_text_color(CRITICAL_COLOR);
         break;
     default:
-        log_prefix = "[UNKNOWN] ";
+        log_prefix = "[UNKNOWN]\t\t";
         set_text_color(DEBUG_COLOR);
         break;
     }

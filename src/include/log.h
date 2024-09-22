@@ -6,11 +6,13 @@
 #define LOG_LEVEL_ERROR 4
 #define LOG_LEVEL_CRITICAL 5
 
-#define DEBUG_M "[DEBUG] "
-#define INFO_M "[INFO] "
-#define WARN_M "[WARNING] "
-#define ERROR_M "[ERROR] "
-#define CRITICAL_M "[CRITICAL] "
+#define LOG_LEVEL LOG_LEVEL_DEBUG
+
+#define DEBUG_M "[DEBUG]\t\t"
+#define INFO_M "[INFO]\t\t"
+#define WARN_M "[WARNING]\t\t"
+#define ERROR_M "[ERROR]\t\t"
+#define CRITICAL_M "[CRITICAL]\t\t"
 
 #define DEBUG_COLOR COLOR8_LIGHT_GREY
 #define INFO_COLOR COLOR8_LIGHT_GREEN

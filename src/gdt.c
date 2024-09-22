@@ -1,5 +1,6 @@
 #include "include/gdt.h"
 #include "include/util.h"
+#include "include/log.h"
 
 
 extern void gdt_flush(uint32_t);
@@ -10,6 +11,7 @@ struct gdt_ptr_struct gdt_ptr;
 struct tss_entry_struct tss_entry;
 
 void initGdt(){
+    log_stdout(LOG_LEVEL_DEBUG, "Initializing GDT and TSS...", false, false);
     gdt_ptr.limit = (sizeof(struct gdt_entry_struct) * 6) - 1;
     gdt_ptr.base = (uint32_t)&gdt_entries;
 
@@ -22,6 +24,7 @@ void initGdt(){
 
     gdt_flush((uint32_t)&gdt_ptr);
     tss_flush();
+    log_stdout(LOG_LEVEL_INFO, "GDT and TSS ok!", false, false);
     
 }
 

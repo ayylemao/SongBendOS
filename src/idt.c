@@ -1,18 +1,13 @@
 #include "include/idt.h"
 #include "include/vga.h"
 #include "include/util.h"
+#include "include/log.h"
 
 __attribute__((aligned(0x10))) 
 static idt_entry_t idt[256];
 
-__attribute__((noreturn))
 void exception_handler(uint32_t interrupt_vector, uint32_t error_code) {
-    printf("\nException\n");
-    printf("Vector: %d\n", interrupt_vector);
-    if (error_code != 0)
-    {
-        printf("Error code: %x\n", error_code);
-    }
+    log_stdout(CRITICAL_COLOR, "Processor Exception! Interrupt Vector %d", true, interrupt_vector);
 
     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
     while(1);
@@ -32,6 +27,7 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 
 void init_Idt() {
+    log_stdout(LOG_LEVEL_DEBUG, "Initializing IDT...", false, false);
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
 
@@ -41,5 +37,7 @@ void init_Idt() {
     }
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
-    //__asm__ volatile ("sti"); // set the interrupt flag
+    log_stdout(LOG_LEVEL_INFO, "IDT ok!", false, false);
+    log_stdout(LOG_LEVEL_DEBUG, "Enabling interupts...", false, false);
+    __asm__ volatile ("sti"); // set the interrupt flag
 }
