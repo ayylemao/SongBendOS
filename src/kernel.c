@@ -2,6 +2,7 @@
 #include "include/gdt.h"
 #include "include/idt.h"
 #include "include/util.h"
+#include "include/log.h"
 
 void kmain(void);
 
@@ -16,5 +17,9 @@ void kmain(void)
 
     outb(0x21, 0xFF);
     outb(0xA1, 0xFF);
+
+    log_stdout(LOG_LEVEL_WARN, "abc", false, false);
+    log_stdout(LOG_LEVEL_INFO, "Formatting took %x seconds!", true, 9892);
+
     __asm__ volatile ("sti");
 };

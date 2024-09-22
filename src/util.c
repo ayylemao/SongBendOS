@@ -157,10 +157,99 @@ void vprintf(const char* format, void* args)
     }
 }
 
+void append_to_buffer(char* output_buffer, const char* str, size_t* pos)
+{
+    while (*str)
+    {
+        output_buffer[(*pos)++] = *str++;
+    }
+    output_buffer[*pos] = '\0'; // Keep buffer null-terminated
+}
+
+void svprintf(char* output_buffer, const char* format, void* args)
+{
+    char* arg_ptr = (char*)args; // The pointer to the first argument
+    size_t pos = 0;              // Position in the output buffer
+
+    while (*format)
+    {
+        if (*format == '%')
+        {
+            format++;  // Skip '%'
+            switch (*format)
+            {
+                case 'd': // Integer
+                {
+                    int32_t i = *((int32_t*)arg_ptr);
+                    arg_ptr += sizeof(int32_t); // Move to the next argument
+                    char buffer[16];
+                    itoa(i, buffer, 10);
+                    append_to_buffer(output_buffer, buffer, &pos);
+                    break;
+                }
+                case 'x': // Hexadecimal
+                {
+                    int32_t i = *((int32_t*)arg_ptr);
+                    arg_ptr += sizeof(int32_t);
+                    char buffer[16];
+                    itoa(i, buffer, 16);
+                    append_to_buffer(output_buffer, "0x", &pos);
+                    append_to_buffer(output_buffer, buffer, &pos);
+                    break;
+                }
+                case 'f': // Float
+                {
+                    double f = *((double*)arg_ptr); // floats are promoted to double
+                    arg_ptr += sizeof(double);
+                    char buffer[32];
+                    ftoa((float)f, buffer, 3); // 3 digits of precision
+                    append_to_buffer(output_buffer, buffer, &pos);
+                    break;
+                }
+                case 's': // String
+                {
+                    const char* s = *((const char**)arg_ptr);
+                    arg_ptr += sizeof(const char*);
+                    append_to_buffer(output_buffer, s, &pos);
+                    break;
+                }
+                case 'c': // Character
+                {
+                    char c = *((char*)arg_ptr);
+                    arg_ptr += sizeof(int); // char is passed as int in variadic functions
+                    char buffer[2] = {c, '\0'};
+                    append_to_buffer(output_buffer, buffer, &pos);
+                    break;
+                }
+                case '%': // Literal '%'
+                {
+                    append_to_buffer(output_buffer, "%", &pos);
+                    break;
+                }
+                default:
+                    append_to_buffer(output_buffer, "%", &pos);
+                    char temp[2] = {*format, '\0'};
+                    append_to_buffer(output_buffer, temp, &pos);
+                    break;
+            }
+        }
+        else
+        {
+            // Append a regular character to the output buffer
+            char buffer[2] = {*format, '\0'};
+            append_to_buffer(output_buffer, buffer, &pos);
+        }
+        format++;
+    }
+
+    output_buffer[pos] = '\0'; // Null-terminate the buffer at the end
+}
+
 void printf(const char* format, ...)
 {
     // The variadic arguments are passed after the format string, so we get the address of the first argument.
     void* first_arg = (void*)(&format + 1);
     vprintf(format, first_arg);
 }
+
 

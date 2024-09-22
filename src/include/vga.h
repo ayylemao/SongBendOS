@@ -17,6 +17,7 @@
 #define COLOR8_LIGHT_MAGENTA 13
 #define COLOR8_YELLOW       14
 #define COLOR8_WHITE        15
+#define DEFAULT_COLOR COLOR8_LIGHT_GREY
 
 #define width 80
 #define height 25
