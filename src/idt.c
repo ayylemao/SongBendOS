@@ -11,7 +11,7 @@ void exception_handler(uint32_t interrupt_vector, uint32_t error_code) {
     printf("Vector: %d\n", interrupt_vector);
     if (error_code != 0)
     {
-        printf("Error code: %d\n", error_code);
+        printf("Error code: %x\n", error_code);
     }
 
     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
@@ -41,5 +41,5 @@ void init_Idt() {
     }
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
-    __asm__ volatile ("sti"); // set the interrupt flag
+    //__asm__ volatile ("sti"); // set the interrupt flag
 }

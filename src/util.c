@@ -1,6 +1,7 @@
 #include "include/util.h"
 #include "include/stdint.h"
 #include "include/vga.h"
+#include "include/util.h"
 
 void *memset(void *dest, char val, uint32_t count)
 {
@@ -162,3 +163,4 @@ void printf(const char* format, ...)
     void* first_arg = (void*)(&format + 1);
     vprintf(format, first_arg);
 }
+

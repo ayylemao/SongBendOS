@@ -5,7 +5,6 @@
 
 void kmain(void);
 
-
 void kmain(void)
 {
     __asm__ volatile ("cli");
@@ -13,4 +12,8 @@ void kmain(void)
     print("GDT has worked!\r\n");
     init_Idt();
     print("IDT has worked!\r\n");
+
+    outb(0x21, 0xFF);
+    outb(0xA1, 0xFF);
+    __asm__ volatile ("sti");
 };
